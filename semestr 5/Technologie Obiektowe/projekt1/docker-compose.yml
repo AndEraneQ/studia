@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  # Service for the Kotlin Spring Boot application
+  currency-exchanger:
+    build:
+      context: ./server  # Path to your Kotlin Spring Boot application
+      dockerfile: Dockerfile  # Path to your Dockerfile for Kotlin
+    ports:
+      - "8080:8080"  # Expose port 8080
+    networks:
+      - app-network  # Connect to the same network
+
+  # Service for the TypeScript React application
+  frontend:
+    build:
+      context: ./client  # Path to your TypeScript React application
+      dockerfile: Dockerfile  # Path to your Dockerfile for React
+    ports:
+      - "3000:3000"  # Expose port 3000
+    networks:
+      - app-network  # Connect to the same network
+    environment:
+      - REACT_APP_API_URL=http://currency-exchanger:8080  # API URL for React to connect to Kotlin
+
+networks:
+  app-network:  # Define a custom network
