@@ -1,19 +1,17 @@
 package com.trojan.currency_exchanger.serializers
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper
-import com.trojan.currency_exchanger.model.CurrenciesData
-import com.trojan.currency_exchanger.model.Currency
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.trojan.currency_exchanger.dto.CurrenciesDto
 import org.springframework.stereotype.Component
 
 @Component
-class XmlToCurrenciesSerializer(private val xmlMapper: XmlMapper) : IXmlToCurrenciesSerializer{
-    override fun parseXmlToCurrenciesData(stringToParse: String): CurrenciesData {
-        return xmlMapper.readValue(
-            stringToParse,
-            xmlMapper.typeFactory.constructCollectionType(
-                List::class.java,
-                Currency::class.java
-            )
-        )
+class JsonToCurrenciesSerializer(
+    private val objectMapper: ObjectMapper
+) : ICurrenciesSerializer {
+    override fun parseToCurrenciesData(stringToParse: String): CurrenciesDto {
+        val currenciesList: List<CurrenciesDto> =
+            objectMapper.readValue(stringToParse,
+                objectMapper.typeFactory.constructCollectionType(List::class.java, CurrenciesDto::class.java))
+        return currenciesList.first()
     }
 }

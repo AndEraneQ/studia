@@ -1,8 +1,7 @@
 package com.trojan.currency_exchanger.serializers
 
-import com.trojan.currency_exchanger.dto.CurrencyResponse
-import com.trojan.currency_exchanger.model.CurrenciesData
+import com.trojan.currency_exchanger.dto.CurrenciesDto
 
-interface IJsonToCurrenciesSerializer {
-    fun parseJsonToCurrenciesData(stringToParse: String) : CurrencyResponse
+interface ICurrenciesSerializer {
+    fun parseToCurrenciesData(stringToParse: String) : CurrenciesDto
 }

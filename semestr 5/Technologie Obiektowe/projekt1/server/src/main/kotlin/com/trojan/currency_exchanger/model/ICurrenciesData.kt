@@ -1,5 +1,5 @@
 package com.trojan.currency_exchanger.model
 
-interface ICurrencyData {
-    fun getCurrencyByCode();
+interface ICurrenciesData {
+    fun getCurrencyByCode(code: String): Currency;
 }

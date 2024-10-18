@@ -3,7 +3,7 @@ package com.trojan.currency_exchanger.dto
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.trojan.currency_exchanger.model.Currency
 
-data class CurrencyResponse(
+data class CurrenciesDto(
     @JsonProperty("table")
     val table: String,
 
