@@ -1,14 +1,11 @@
-# Use OpenJDK 17 to run the application
-FROM openjdk:17-jdk-slim
-
-# Set the working directory
+FROM maven:3.8.8 AS build
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package
 
-# Copy the pre-built jar file to the container
-COPY target/currency-exchanger-0.0.1-SNAPSHOT.jar app.jar
-
-# Expose the application port
+FROM openjdk:17-slim
+WORKDIR /app
+COPY --from=build /app/target/currency-exchanger-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
-# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]

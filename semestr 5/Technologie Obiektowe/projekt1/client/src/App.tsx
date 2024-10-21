@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import currencyService from './services/currencyService';
 import './App.css';
 import CurrencySelect from './components/CurrencySelect';
