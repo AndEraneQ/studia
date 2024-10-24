@@ -23,11 +23,27 @@ class CurrenciesData(
     private fun loadCurrencies() {
         val jsonString = xmlFetcher.fetchDataFromUrl(FetcherUtils.NBP_URL)
         this.currencies = parseCurrencies(jsonString)
+        addPlnCurrency();
     }
 
     private fun parseCurrencies(jsonString: String): List<Currency> {
         val currenciesDto: CurrenciesDto = currenciesSerializer.parseToCurrenciesData(jsonString)
         return currenciesDto.rates
+    }
+
+    private fun addCurrencyManually(currency: Currency) {
+        if (!currencies.any { it.code == currency.code }) {
+            currencies = currencies + currency
+        }
+    }
+
+    private fun addPlnCurrency() {
+        val pln = Currency(
+            name = "Złoty",
+            code = "PLN",
+            value = 1.0
+        )
+        addCurrencyManually(pln)
     }
 
     override fun getCurrencyByCode(code: String): Currency {
