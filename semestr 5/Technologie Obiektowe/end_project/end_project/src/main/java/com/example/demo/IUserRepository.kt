@@ -5,6 +5,6 @@ interface IUserRepository {
     fun update(newUsername: String?, newPassword: String?)
     fun getUsers(username: String)
     fun delete(username: String)
-    fun login(username: String, password: String)
-    fun getLoggedInUser()
+    fun login(username: String)
+    fun getLoggedInUser(): String?
 }

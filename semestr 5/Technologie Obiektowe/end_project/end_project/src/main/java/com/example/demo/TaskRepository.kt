@@ -1,17 +1,18 @@
 package com.example.demo
 
-import Task
 import TaskFactory
+import org.springframework.stereotype.Component
+import java.util.concurrent.CopyOnWriteArrayList
 
-class TaskRepository {
+@Component
+class TaskRepository(
+    private val taskFactory: TaskFactory,
+    private val userRepository: UserRepository,
+) {
+    private val tasks: MutableList<Task> = CopyOnWriteArrayList()
 
-    private val tasks = mutableListOf<Task>()
-
-    fun addTask(type: String, name: String, description: String): String {
-        val taskFactory = TaskFactory()
-        val task = taskFactory.createTask(type, name, description)
+    fun addTask(task: Task) {
         tasks.add(task)
-        return "Task added: ${task.displayTask()}"
     }
 
     fun listTasks(): List<String> {
@@ -22,27 +23,35 @@ class TaskRepository {
         }
     }
 
-    fun getTaskByName(name: String): Task? {
-        return tasks.find { it.name == name }
+    fun assignTaskToUser(taskName: String, username: String): String {
+        val task = getTaskByName(taskName)
+        val user = userRepository.getUserByUsername(username)
+
+        return when {
+            task == null -> "Task not found!"
+            user == null -> "User '$username' does not exist!"
+            else -> {
+                task.assignedUsername = username
+                "Task '${task.name}' assigned to user '$username'."
+            }
+        }
     }
 
+    fun getTaskByName(name: String): Task? = tasks.find { it.name == name }
+
     fun updateTask(name: String, newDescription: String): String {
-        val task = getTaskByName(name)
-        return if (task != null) {
-            task.description = newDescription
-            "Task updated: ${task.name}"
-        } else {
-            "Task not found!"
-        }
+        val task = getTaskByName(name)?.apply { description = newDescription }
+        return task?.let { "Task updated successfully: ${it.displayTask()}" }
+            ?: "Error: Task with name '$name' not found."
     }
 
     fun removeTask(name: String): String {
         val task = getTaskByName(name)
         return if (task != null) {
             tasks.remove(task)
-            "Task removed: ${task.name}"
+            "Task removed successfully: ${task.name}"
         } else {
-            "Task not found!"
+            "Error: Task with name '$name' not found."
         }
     }
 }

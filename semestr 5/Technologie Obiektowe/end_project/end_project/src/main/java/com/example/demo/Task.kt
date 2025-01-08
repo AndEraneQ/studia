@@ -1,23 +1,61 @@
+package com.example.demo
+
 interface Task {
     val name: String
     var description: String
+    var state: TaskState
+    var assignedUsername: String? // Nullable field for the assigned user
     fun displayTask(): String
 }
 
-class BugTask(override val name: String, override var description: String) : Task {
+// Task implementations
+class BugTask(
+    override val name: String,
+    override var description: String,
+    override var assignedUsername: String? = null // Default to unassigned
+) : Task {
+    override var state: TaskState = ToDoState()
     override fun displayTask(): String {
-        return "Type: Bug\nName: $name\nDescription: $description"
+        return """
+            |Type: Bug
+            |Name: $name
+            |Description: $description
+            |Status: ${state.getStatus()}
+            |Assigned To: ${assignedUsername ?: "Unassigned"}
+        """.trimMargin()
     }
 }
 
-class FeatureTask(override val name: String, override var description: String) : Task {
+class FeatureTask(
+    override val name: String,
+    override var description: String,
+    override var assignedUsername: String? = null // Default to unassigned
+) : Task {
+    override var state: TaskState = ToDoState()
     override fun displayTask(): String {
-        return " ype: Feature\nName: $name\nDescription: $description"
+        return """
+            |Type: Feature
+            |Name: $name
+            |Description: $description
+            |Status: ${state.getStatus()}
+            |Assigned To: ${assignedUsername ?: "Unassigned"}
+        """.trimMargin()
     }
 }
 
-class ImprovementTask(override val name: String, override var description: String) : Task {
+class ImprovementTask(
+    override val name: String,
+    override var description: String,
+    override var assignedUsername: String? = null // Default to unassigned
+) : Task {
+    override var state: TaskState = ToDoState()
     override fun displayTask(): String {
-        return "Type: Improvement\nName: $name\nDescription: $description"
+        return """
+            |Type: Improvement
+            |Name: $name
+            |Description: $description
+            |Status: ${state.getStatus()}
+            |Assigned To: ${assignedUsername ?: "Unassigned"}
+        """.trimMargin()
     }
 }

@@ -1,6 +1,5 @@
 package com.example.demo
 
-import Task
 
 interface TaskState {
     fun progress(task: Task)
