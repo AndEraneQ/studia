@@ -1,5 +1,5 @@
 from tkinter import Tk
-from gui import BudgetApp
+from gui.gui import BudgetApp
 
 if __name__ == "__main__":
     root = Tk()

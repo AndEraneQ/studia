@@ -1,4 +1,6 @@
-class Observable:
+from .i_observer import IObservable, IObserver
+
+class Observable(IObservable):
     def __init__(self):
         self.observers = []
 
@@ -10,7 +12,7 @@ class Observable:
             observer.update(data)
 
 
-class BudgetObserver:
+class BudgetObserver(IObserver):
     def __init__(self, update_callback):
         self.update_callback = update_callback
 

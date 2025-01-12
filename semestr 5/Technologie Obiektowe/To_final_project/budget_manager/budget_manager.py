@@ -1,8 +1,9 @@
 import json
 from observer import Observable
-from transaction import TransactionBase
+from modals import TransactionBase
+from .i_budget_manager import IBudgetManager
 
-class BudgetManager(Observable):
+class BudgetManager(IBudgetManager, Observable):
     _instance = None
 
     @staticmethod

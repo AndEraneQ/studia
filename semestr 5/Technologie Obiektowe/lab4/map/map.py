@@ -3,7 +3,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from models.fire_station import FireStation
-from models.event import Event
+from models import Event
 from observers.logger import Logger
 from iteration.iterator import Iterator
 from strategy.strategy import FireResponseStrategy, HazardResponseStrategy

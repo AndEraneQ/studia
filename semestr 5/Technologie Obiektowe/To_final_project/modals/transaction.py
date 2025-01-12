@@ -1,7 +1,6 @@
-from abc import ABC, abstractmethod
+from .i_transaction import ITransaction
 
-class TransactionBase(ABC):
-
+class TransactionBase(ITransaction):
     def __init__(self, description: str, amount: float, category: str, type: str):
         self.description = description
         self.amount = float(amount)
@@ -15,7 +14,7 @@ class TransactionBase(ABC):
             "category": self.category,
             "type": self.transaction_type()
         }
-
+    
     @classmethod
     def from_dict(cls, data: dict):
 
@@ -32,10 +31,6 @@ class TransactionBase(ABC):
             return Expense(data["description"], data["amount"], data["category"])
         else:
             raise ValueError(f"Unknown transaction type: {data['type']}")
-
-    @abstractmethod
-    def transaction_type(self) -> str:
-        pass
 
     def __str__(self) -> str:
         return f"{self.transaction_type()} - {self.description}: {self.amount:.2f} zł ({self.category})"
